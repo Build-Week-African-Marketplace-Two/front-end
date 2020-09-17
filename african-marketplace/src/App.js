@@ -1,17 +1,49 @@
-import React from 'react';
-import ReactDom from 'react-dom';
-import NavCompo from './NavCompo';
-import LoginCompo from './LoginCompo';
-import RegisterCompo from './RegisterCompo';
+import React, { useState } from 'react';
+import { Route } from 'react-router-dom';
+import { ProductContext } from './contexts/ProductContext';
+import { CartContext } from './contexts/CartContext';
+import data from './data';
+
+// Components
+import Navigation from './components/Navigation';
+import Products from './components/Products';
+import ShoppingCart from './components/ShoppingCart';
 
 function App() {
-  return (
-    <div>
-            <NavCompo />
-            <LoginCompo />
-            <RegisterCompo />
-        </div>
-  );
+	const [products] = useState(data);
+	const [cart, setCart] = useState([]);
+
+	const addItem = item => {
+		// add the given item to the cart
+
+		setCart([...cart, item])
+
+	};
+
+	const removeItem = itemID => {
+		//remove the selected item from the cart
+
+		setCart(cart.filter(item => itemID !== item.id));
+	}
+
+	return (
+		<div className="App">
+			<ProductContext.Provider value={{ products, addItem }}>
+				<CartContext.Provider value={{ cart, removeItem  }}>
+					<Navigation cart={cart} />
+
+					{/* Routes */}
+					<Route exact path="/">
+						<Products/>
+					</Route>
+
+					<Route path="/cart">
+						<ShoppingCart cart={cart} />
+					</Route>
+				</CartContext.Provider>	
+			</ProductContext.Provider>
+		</div>
+	);
 }
 
 export default App;
