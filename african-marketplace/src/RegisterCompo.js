@@ -1,8 +1,29 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import RegisterCard from './RegisterCard';
+import * as yup from 'yup';
+import styled from 'styled-components';
+
+// page is not clearing up.
+// Radio button and checkbox print its value not an actual text.
 
 
+const Maindiv = styled.div`
+diplay: flex;
+justify-content: center;
+align-content: center;
+`;
+
+
+const formSchema = yup.object().shape({
+    firstname: yup.string().required("First Name is Require"),
+    lastname: yup.string().required("Last Name is Required"),
+    email: yup.string().email().required("Email is required"),
+    password: yup.string().required("Password is Required"),
+    conpassword: yup.string().required(),
+    state: yup.string(),
+    status: yup.string(),
+    terms: yup.boolean().oneOf([true], "Please agree to terms and condition")
+});
 
 const RegisterCompo = (props) => {
     const [formState, setFormstate] = useState([
@@ -18,6 +39,29 @@ const RegisterCompo = (props) => {
     }
     ]);
 
+    const [errorstate, setErrorstate] = useState([{
+        firstname: "",
+        lastname: "",
+        email: "",
+        password: "",
+        conpassword: "",
+        state: "",
+        status: "",
+        terms: ""
+    }]);
+
+    const validateaForm = (e) => {
+        yup.reach(formSchema, e.target.name)
+            .validate(e.target.value)
+            .then(valid => {
+                setErrorstate({ ...errorstate, [e.target.name]: "" })
+            })
+            .catch(err => {
+                setErrorstate({ ...errorstate, [e.target.name]: err.errorstate });
+                console.log(err.errors);
+            })
+    };
+
     const formSubmit = (e) => {
         e.preventDefault();
         props.registerAttr(formState);
@@ -31,30 +75,46 @@ const RegisterCompo = (props) => {
     const changeHandler = (e) => {
         console.log(e.target.value);
         e.persist();
+        validateaForm(e);
         let anyVariable = e.target.type === "checkbox" ? e.target.checked : e.target.value;
         setFormstate({...formState, [e.target.name]: anyVariable})
     };
         
 
     return (
-        <div className = "component-div">
+        <Maindiv>
             <h2> Registration Form </h2>
-            <form onSubmit = {formSubmit}>
-                <p><label htmlFor="firstName"> First Name : 
-                    <input type = "text" name = "firstName" id = "firstName" onChange = {changeHandler}  />
-                </label></p>
-                <p><label htmlFor="lastName"> Last Name : 
-                    <input type = "text" name = "lastName" id = "lastName" onChange = {changeHandler} />
-                </label></p>
-                <p><label htmlFor="email"> Email : 
+            <form onSubmit={formSubmit}>
+                
+                <p>
+                    <label htmlFor="firstName"> First Name : 
+                    <input type = "text" name = "firstname" id = "firstName" onChange = {changeHandler}  />
+                    </label>
+                </p>
+
+                <p>
+                    <label htmlFor="lastName"> Last Name : 
+                    <input type = "text" name = "lastname" id = "lastName" onChange = {changeHandler} />
+                    </label>
+                </p>
+
+                <p>
+                    <label htmlFor="email"> Email : 
                     <input type = "text" name = "email" id = "email" onChange = {changeHandler} />
-                </label></p>
-                <p><label htmlFor="password"> Password : 
+                    </label>
+                </p>
+
+                <p>
+                    <label htmlFor="password"> Password : 
                     <input type = "password" name = "password" id = "password" onChange = {changeHandler} />
-                </label></p>
-                <p><label htmlFor="conPassword"> Confirm Password : 
-                    <input type = "password" name = "conPassword" id = "conPassword" onChange = {changeHandler} />
-                </label></p>
+                    </label>
+                </p>
+
+                <p>
+                    <label htmlFor="conPassword"> Confirm Password : 
+                    <input type = "password" name = "conpassword" id = "conPassword" onChange = {changeHandler} />
+                    </label>
+                </p>
 
                 <p><label htmlFor = "listOfState">State : <select onChange = {changeHandler} value = {formState.state} name = "state" id = "state">  
                     <option value = "">--State of residence--</option>
@@ -68,17 +128,21 @@ const RegisterCompo = (props) => {
                     <option value = "delaware">Delaware</option>
                 </select></label></p>
 
-                <p><label htmlFor="busiStatus" onChange = {changeHandler} ></label>
-                        <input type="radio" name="busiStatus" id="customer" value = "customer" /> Customer
-                        <input type="radio" name="busiStatus" id="businessowner" value = "businessowner" />Business Owner
+                <p><label htmlFor="status" onChange = {changeHandler} value = {formState.status} >
+                        <input type="radio" name="status" id="customer" value = "customer" /> Customer
+                        <input type="radio" name="status" id="businessowner" value = "businessowner" />Business Owner </label>
                     
                 </p>
 
-                <p><label htmlFor="terms">I agree the terms and conditions<input type="checkbox" id="terms" name="terms" onChange = {changeHandler} value = {formState.terms} /></label></p>
+                <p>
+                    <label htmlFor="terms">I agree the terms and conditions
+                    <input type="checkbox" id="terms" name="terms" onChange={changeHandler} value={formState.terms} />
+                    </label>
+                </p>
                 <p><button type = "submit">Register</button></p>
             </form>
           
-        </div>
+        </Maindiv>
     );
 };
 
