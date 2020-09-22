@@ -5,6 +5,8 @@ import RegisterCompo from './RegisterCompo';
 import RegisterCard from './RegisterCard';
 import { Route } from 'react-router';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import './App.css';
 
 
 function App() {
@@ -47,13 +49,24 @@ function App() {
     setSignin([...signin, welcomeUser]);
   };
 
+  const Navbar = styled.nav`
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+  `;
+
+  const Navdiv = styled.div`
+    margin: 10px;
+  `;
+
+ 
   return (
-    <div className = "App">
-      <nav>
-        <div>
-          <Link to = "/register">Register</Link>
+    <div>
+      <nav className = "navbar">
+        <h2 className = "nav-title">African Marketplace</h2>
+        <div className = "nav-div">
           <Link to = "/">Home</Link>
-          <Link to='/NewUser'>SignUp</Link>
+          <Link to = "/register">Sign Up</Link>
           <Link to = "/login">Login</Link>
         </div>
       </nav>

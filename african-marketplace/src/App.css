@@ -37,7 +37,20 @@
   }
 }
 
-.component-div {
+.navbar {
   display: flex;
-  justify-items: center;  
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.nav-title {
+  color: green;
+}
+
+.nav-div a {
+  text-decoration: none;
+  margin: 15px;
+  font-size: 18px;
+  color: green;
 }
