@@ -3,7 +3,8 @@ import NavCompo from './NavCompo';
 import LoginCompo from './LoginCompo';
 import RegisterCompo from './RegisterCompo';
 import RegisterCard from './RegisterCard';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { Route } from 'react-router';
+import { Link } from 'react-router-dom';
 
 
 function App() {
@@ -31,26 +32,46 @@ function App() {
       status: formData.status
     }
     setRegister([...register, newUser]);
-  }
+  };
+
+  const [signin, setSignin] = useState([{
+    email: "John",
+    password: "password"
+  }]);
+
+  const userSignin = (signinData) => {
+    const welcomeUser = {
+      email: signinData.email,
+      password: signinData.password,
+    }
+    setSignin([...signin, welcomeUser]);
+  };
 
   return (
     <div className = "App">
       <nav>
         <div>
-          {/* <Link to = "/register">Register</Link> */}
-          {/* <Link to = "/">Home</Link> */}
-          {/* <Link to='/NewUser'>SignUp</Link> */}
-          {/* <Link to = '/existingUser'>Login</Link> */}
+          <Link to = "/register">Register</Link>
+          <Link to = "/">Home</Link>
+          <Link to='/NewUser'>SignUp</Link>
+          <Link to = "/login">Login</Link>
         </div>
       </nav>
-      {/* <Route path = "/NewUser"> */}
+
+      <Route path = "/NewUser">
         <NavCompo />
-      {/* </Route> */}
-        <LoginCompo />
-      {/* <Route path = "/register"> */}
+      </Route>
+
+      <Route path = "/login">
+        <LoginCompo loginAttr={userSignin} />
+      </Route>
+      
+      
+      <Route path = "/register">
         <RegisterCompo registerAttr={addNewUser} />
         <RegisterCard cardAttr = {register} />
-      {/* </Route>         */}
+      </Route>   
+      
     </div>
   );
 }

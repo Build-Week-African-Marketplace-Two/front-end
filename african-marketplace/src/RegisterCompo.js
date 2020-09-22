@@ -3,14 +3,36 @@ import axios from 'axios';
 import * as yup from 'yup';
 import styled from 'styled-components';
 
-// page is not clearing up.
+// input elements are not clearing up.
 // Radio button and checkbox print its value not an actual text.
-
+// checkbox console log page is behaving opposite.
+// router need a set up.
+// without initial card in register form.
+// error msg are not in a proper state.
 
 const Maindiv = styled.div`
-diplay: flex;
-justify-content: center;
-align-content: center;
+    diplay: flex;
+    justify-content: center;
+    align-content: center;
+`;
+
+const Button = styled.button`
+    width: 100px;
+    height: 40px;
+    border: none;
+    border-radius: 10px;
+    color: green;
+    background-color: aquamarine;
+    font-size: 20px;
+    font-weight: bold;
+`;
+
+const Formstyle = styled.form`
+    text-align: center;
+`;
+
+const Formtitle = styled.h2`
+    text-align: center;
 `;
 
 
@@ -35,7 +57,7 @@ const RegisterCompo = (props) => {
         conpassword: "",
         state: "",
         status: "",
-        terms: false
+        terms: ""
     }
     ]);
 
@@ -83,8 +105,8 @@ const RegisterCompo = (props) => {
 
     return (
         <Maindiv>
-            <h2> Registration Form </h2>
-            <form onSubmit={formSubmit}>
+            <Formtitle> Registration Form </Formtitle>
+            <Formstyle onSubmit={formSubmit}>
                 
                 <p>
                     <label htmlFor="firstName"> First Name : 
@@ -118,8 +140,8 @@ const RegisterCompo = (props) => {
 
                 <p><label htmlFor = "listOfState">State : <select onChange = {changeHandler} value = {formState.state} name = "state" id = "state">  
                     <option value = "">--State of residence--</option>
-                    <option value = "alabama">Alabama</option>
-                    <option value = "alaska">Alaska</option>
+                    <option value = "Alabama">Alabama</option>
+                    <option value = "Alaska">Alaska</option>
                     <option value = "arizona">Arizona</option>
                     <option value = "arkansas">Arkansas</option>
                     <option value = "california">California</option>
@@ -129,18 +151,19 @@ const RegisterCompo = (props) => {
                 </select></label></p>
 
                 <p><label htmlFor="status" onChange = {changeHandler} value = {formState.status} >
-                        <input type="radio" name="status" id="customer" value = "customer" /> Customer
-                        <input type="radio" name="status" id="businessowner" value = "businessowner" />Business Owner </label>
+                        <input type="radio" name="status" id="customer" value = "customer" /> Customer </label>
+                    <label htmlFor="status" onChange={changeHandler} value={formState.status}>
+                        <input type="radio" name="status" id="businessowner" value="Business Owner" />Business Owner </label>
                     
                 </p>
 
                 <p>
                     <label htmlFor="terms">I agree the terms and conditions
-                    <input type="checkbox" id="terms" name="terms" onChange={changeHandler} value={formState.terms} />
+                    <input type="checkbox" id="terms" name="terms" onChange={changeHandler} value={formState.terms}/>
                     </label>
                 </p>
-                <p><button type = "submit">Register</button></p>
-            </form>
+                <p><Button type = "submit">Register</Button></p>
+            </Formstyle>
           
         </Maindiv>
     );

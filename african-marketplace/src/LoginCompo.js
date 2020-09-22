@@ -1,6 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-const LoginCompo = () => {
+const LoginCompo = (props) => {
+
+    const [login, setLogin] = useState([{
+        email: "",
+        password: "",
+        terms: false
+    }]);
+
     return (
         <div className = "component-div">
             <h2>Customer Login</h2>

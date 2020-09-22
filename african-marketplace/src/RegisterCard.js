@@ -11,14 +11,15 @@ flex-direction: column;
 
 const Cardtitle = styled.h2`
 color: blue;
+text-align: center;
 `;
 
 const Carddiv = styled.div`
-width: 700px
+width: 700px;
 border: 1px solid red;
  background-color: lightblue;
  border-radius: 10px;
- margin: 10px;
+ margin: 10px auto;
  padding: 10px;
 `;
 
@@ -26,17 +27,17 @@ const RegisterCard = (props) => {
     return (
         <Maindiv>
             <Cardtitle>Register Card</Cardtitle>
-            <Carddiv>
+            <div>
             {props.cardAttr.map(item => (
-                <div key={item.id}>
+                <Carddiv key={item.id}>
                     <p>First Name: {item.firstname}</p>
                     <p>Last Name: {item.lastname}</p>
                     <p>Email Address: {item.email}</p>
                     <p>Coustomer/Business Owner: {item.status}</p>
                     <p>State of Residence: {item.state}</p>
-                </div>
+                </Carddiv>
             ))}
-            </Carddiv>
+            </div>
         </Maindiv>
     );
 };
