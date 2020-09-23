@@ -8,6 +8,7 @@ import data from './data';
 import Navigation from './components/Navigation';
 import Products from './components/Products';
 import ShoppingCart from './components/ShoppingCart';
+import LoginCompo from '../src/LoginCompo';
 
 function App() {
 	const [products] = useState(data);
@@ -34,6 +35,10 @@ function App() {
 
 					{/* Routes */}
 					<Route exact path="/">
+						<LoginCompo/>
+					</Route>
+
+					<Route exact path="/products">
 						<Products/>
 					</Route>
 
