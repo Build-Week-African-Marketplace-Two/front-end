@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import * as yup from 'yup';
+import './App.css';
 
 const Loginheader = styled.h2`
     display: flex;
@@ -70,7 +71,7 @@ const LoginCompo = (props) => {
         });
         console.log("Welcome Back !!")
         axios
-            .post(`https://bw-african-marketplace.herokuapp.com/api/auth/login`, {username: login.email, password:  login.password})
+            .post(`https://bw-african-marketplace.herokuapp.com/api/auth/login`, {username: login.username, password: login.password})
             .then((res) => console.log(res))
             .catch((err) => console.log(err));
     };
@@ -88,11 +89,11 @@ const LoginCompo = (props) => {
             <Loginform onSubmit = {formSubmit}>
                 <p><label htmlFor="customeremail"> User Name:  
                     <input type="text" name="username" id="username" value={login.username} onChange={changeHangler} />     
-                    {errorState.username.length > 0 ? <p>{errorState.username}</p> : null}
+                    {errorState.username.length > 0 ? <p className = "error">{errorState.username}</p> : null}
                 </label></p>
                 <p><label htmlFor="customerPassword"> Password:  
                     <input type="password" name="password" id="password" value={login.password} onChange={changeHangler} />  
-                    {errorState.password.length > 0 ? <p>{errorState.password}</p> : null}
+                    {errorState.password.length > 0 ? <p className = "error">{errorState.password}</p> : null}
                 </label></p>
                 <p><label htmlFor="rememberMe">Rememebr Me <input type="checkbox" name="rememberMe" id="rememberMe" value={login.terms} onChange={changeHangler} />
                 </label></p>

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import * as yup from "yup";
 import styled from "styled-components";
+import './App.css';
 
 // input elements are not clearing up.
 // Radio button and checkbox print its value not an actual text.
@@ -9,9 +10,10 @@ import styled from "styled-components";
 // without initial card in register form.
 
 const Maindiv = styled.div`
-  width: 50%;
+  width: 70%;
   margin: auto;
-
+  background-color: #bffcbd;
+  padding: 20px;
 `;
 
 const Button = styled.button`
@@ -26,7 +28,7 @@ const Button = styled.button`
 `;
 
 const Formstyle = styled.form`
-  text-align: center;
+//   text-align: center;
 `;
 
 const Formtitle = styled.h2`
@@ -36,7 +38,8 @@ const Formtitle = styled.h2`
 `;
 
 const Inputdiv = styled.div`
-    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
 `;
 
 const formSchema = yup.object().shape({
@@ -88,7 +91,6 @@ const RegisterCompo = (props) => {
             .catch((err) => {
                 setErrorState({ ...errorState, [e.target.name]: err.errors[0] });
                 console.log(err.errors);
-                console.log(errorState);
             });
     };
 
@@ -123,38 +125,38 @@ const RegisterCompo = (props) => {
         <Maindiv>
             <Formtitle> Registration Form </Formtitle>
             <Formstyle onSubmit={formSubmit}>
-                <Inputdiv><label htmlFor="firstname">First Name :
-                    <input type="text" name="firstname" id="firstname" value={formState.firstname} onChange={changeHandler}/>
-                        {errorState.firstname.length > 0 ? <p>{errorState.firstname}</p> : null}
+                <Inputdiv><label htmlFor="firstname" className = "textlable"> First Name <br></br>
+                    <input className = "textarea" type="text" name="firstname" id="firstname" value={formState.firstname} onChange={changeHandler}/>
+                        {errorState.firstname.length > 0 ? <p className = "error">{errorState.firstname}</p> : null}
                     </label>
                 </Inputdiv>
 
-                <Inputdiv><label htmlFor="lastName">Last Name :
-                    <input type="text" name="lastname" id="lastName" onChange={changeHandler} value={formState.lastname} />
-                        {errorState.lastname.length > 0 ? <p>{errorState.lastname}</p> : null}
+                <Inputdiv><label htmlFor="lastName" className = "textlable">Last Name : <br></br>
+                    <input className = "textarea" type="text" name="lastname" id="lastName" onChange={changeHandler} value={formState.lastname} />
+                        {errorState.lastname.length > 0 ? <p className = "error">{errorState.lastname}</p> : null}
                     </label>
                 </Inputdiv>
 
-                <Inputdiv><label htmlFor="email">Email :
-                    <input type="text" name="email" id="email" onChange={changeHandler} value={formState.email} />
-                        {errorState.email.length > 0 ? <p>{errorState.email}</p> : null}
+                <Inputdiv><label htmlFor="email" className = "textlable">Email : <br></br>
+                    <input className = "textarea" type="text" name="email" id="email" onChange={changeHandler} value={formState.email} />
+                        {errorState.email.length > 0 ? <p className = "error">{errorState.email}</p> : null}
                     </label>
                 </Inputdiv>
 
-                <Inputdiv><label htmlFor="password">Password :
-                    <input type="password" name="password" id="password" onChange={changeHandler} value={formState.password} />
-                        {errorState.password.length > 0 ? <p>{errorState.password}</p> : null}
+                <Inputdiv><label htmlFor="password" className = "textlable">Password : <br></br>
+                    <input className = "textarea" type="password" name="password" id="password" onChange={changeHandler} value={formState.password} />
+                        {errorState.password.length > 0 ? <p className = "error">{errorState.password}</p> : null}
                     </label>
                 </Inputdiv>
 
-                <Inputdiv><label htmlFor="conPassword"> Confirm Password :
-                    <input type="password" name="conpassword" id="conPassword" onChange={changeHandler} value={formState.conpassword} />
-                        {errorState.conpassword.length > 0 ? <p>{errorState.conpassword}</p> : null}
+                <Inputdiv><label htmlFor="conPassword" className = "textlable"> Confirm Password : <br></br>
+                    <input className = "textarea" type="password" name="conpassword" id="conPassword" onChange={changeHandler} value={formState.conpassword} />
+                        {errorState.conpassword.length > 0 ? <p className = "error">{errorState.conpassword}</p> : null}
                     </label>
                 </Inputdiv>
 
-                <Inputdiv><label htmlFor="listOfState"> State :
-                        <select onChange={changeHandler} value={formState.state} name="state" id="state">
+                <Inputdiv><label htmlFor="listOfState" className = "textlable"> State : <br></br>
+                        <select className = "textarea" onChange={changeHandler} value={formState.state} name="state" id="state">
                             <option value="">--State of residence--</option>
                             <option value="Alabama">Alabama</option>
                             <option value="Alaska">Alaska</option>
@@ -165,7 +167,7 @@ const RegisterCompo = (props) => {
                             <option value="Connecticut">Connecticut</option>
                             <option value="Delaware">Delaware</option>
                         </select>
-                        {errorState.state.length > 0 ? <p>{errorState.state}</p> : null}
+                        {errorState.state.length > 0 ? <p className = "error">{errorState.state}</p> : null}
                     </label>
                 </Inputdiv>
 
@@ -175,7 +177,7 @@ const RegisterCompo = (props) => {
                     <label htmlFor="status" onChange={changeHandler} value={formState.status}>
                         <input type="radio" name="status" id="businessowner" value="Business Owner"/> Business Owner
                     </label>
-                    {errorState.status.length > 0 ? <p>{errorState.status}</p> : null}
+                    {errorState.status.length > 0 ? <p className = "error">{errorState.status}</p> : null}
                 </Inputdiv>
 
                 <Inputdiv><label htmlFor="terms"> I agree the terms and conditions
