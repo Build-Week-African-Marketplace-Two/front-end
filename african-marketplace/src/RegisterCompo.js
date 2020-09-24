@@ -6,9 +6,7 @@ import styled from "styled-components";
 // input elements are not clearing up.
 // Radio button and checkbox print its value not an actual text.
 // checkbox console log page is behaving opposite.
-// router need a set up.
 // without initial card in register form.
-// error msg are not in a proper state.
 
 const Maindiv = styled.div`
   width: 50%;
@@ -37,221 +35,159 @@ const Formtitle = styled.h2`
     color: green;
 `;
 
+const Inputdiv = styled.div`
+    margin-bottom: 15px;
+`;
+
 const formSchema = yup.object().shape({
-  firstname: yup.string().required("First Name is Required"),
-  lastname: yup.string().required("Last Name is Required"),
-  email: yup.string().email().required("Email is required"),
-  password: yup.string().required("Password is Required"),
-  conpassword: yup.string().required(),
-  state: yup.string(),
-  status: yup.string(),
-  terms: yup.boolean().oneOf([true], "Please agree to terms and condition"),
+    firstname: yup.string().required("First Name is Required"),
+    lastname: yup.string().required("Last Name is Required"),
+    email: yup.string().email().required("Email is required"),
+    password: yup.string().required("Password is Required"),
+    conpassword: yup.string().required("Your passwords should match"),
+    state: yup.string().required("Please select your state of residence"),
+    status: yup.string(),
+    terms: yup.boolean().oneOf([true], "Please agree to terms and condition")
 });
 
 const RegisterCompo = (props) => {
-  const [formState, setFormstate] = useState(
-    {
-      firstname: "",
-      lastname: "",
-      email: "",
-      password: "",
-      conpassword: "",
-      state: "",
-      status: "",
-      terms: "",
-    }
-  );
+    const [formState, setFormState] = useState(
+        {
+            firstname: "",
+            lastname: "",
+            email: "",
+            password: "",
+            conpassword: "",
+            state: "",
+            status: "",
+            terms: "",
+        }
+    );
 
-  const [errorstate, setErrorstate] = useState(
-    {
-      firstname: "",
-      lastname: "",
-      email: "",
-      password: "",
-      conpassword: "",
-      state: "",
-      status: "",
-      terms: "",
-    },
-  );
+    const [errorState, setErrorState] = useState(
+        {
+            firstname: "",
+            lastname: "",
+            email: "",
+            password: "",
+            conpassword: "",
+            state: "",
+            status: "",
+            terms: "",
+        },
+    );
 
-  const validateaForm = (e) => {
-    yup
-      .reach(formSchema, e.target.name)
-      .validate(e.target.value)
-      .then((valid) => {
-        setErrorstate({ ...errorstate, [e.target.name]: "" });
-        console.log(valid);
-      })
-      .catch((err) => {
-        setErrorstate({ ...errorstate, [e.target.name]: err.errorstate });
-        console.log(err.errors);
-      });
-  };
+    const validateaForm = (e) => {
+        yup
+            .reach(formSchema, e.target.name)
+            .validate(e.target.value)
+            .then((valid) => {
+                setErrorState({ ...errorState, [e.target.name]: "" });
+                console.log(valid);
+            })
+            .catch((err) => {
+                setErrorState({ ...errorState, [e.target.name]: err.errors[0] });
+                console.log(err.errors);
+                console.log(errorState);
+            });
+    };
 
-  const formSubmit = (e) => {
-    e.preventDefault();
-    props.registerAttr(formState);
-    setFormstate({
-      firstname: "",
-      lastname: "",
-      email: "",
-      password: "",
-      conpassword: "",
-      state: "",
-      status: "",
-    });
-      console.log("Registration Confirmed");
-    //   if(e.target.name === 0 || e.target.name = "check") {}
-      console.log(e.target.name);
-    axios
-      .post(`https://reqres.in/api/users`, formState)
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
-  };
+    const formSubmit = (e) => {
+        e.preventDefault();
+        props.registerAttr(formState);
+        setFormState({
+            firstname: "",
+            lastname: "",
+            email: "",
+            password: "",
+            conpassword: "",
+            state: "",
+            status: "",
+        });
+        console.log("Registration Confirmed");
+        axios
+            .post(`https://bw-african-marketplace.herokuapp.com/api/auth/register`, {username: formState.email, password:  formState.password})
+            .then((res) => console.log(res))
+            .catch((err) => console.log(err));
+    };
+    
+    const changeHandler = (e) => {
+        // e.persist allows to the event properties in an asynchronous way
+        e.persist(); 
+        validateaForm(e);
+        let anyVariable = e.target.type === "checkbox" ? e.target.checked : e.target.value;
+        setFormState({ ...formState, [e.target.name]: anyVariable });
+    };
 
-  const changeHandler = (e) => {
-    // console.log(e.target.value);
-    e.persist();
-    validateaForm(e);
-    let anyVariable =
-      e.target.type === "checkbox" ? e.target.checked : e.target.value;
-    setFormstate({ ...formState, [e.target.name]: anyVariable });
-  };
+    return (
+        <Maindiv>
+            <Formtitle> Registration Form </Formtitle>
+            <Formstyle onSubmit={formSubmit}>
+                <Inputdiv><label htmlFor="firstname">First Name :
+                    <input type="text" name="firstname" id="firstname" value={formState.firstname} onChange={changeHandler}/>
+                        {errorState.firstname.length > 0 ? <p>{errorState.firstname}</p> : null}
+                    </label>
+                </Inputdiv>
 
-  return (
-    <Maindiv>
-      <Formtitle> Registration Form </Formtitle>
-      <Formstyle onSubmit={formSubmit}>
-        <p>
-          <label htmlFor="firstName">
-            {" "}
-            First Name :
-            <input
-              type="text"
-              name="firstname"
-              id="firstName"
-              onChange={changeHandler}
-            />
-          </label>
-        </p>
-              <p>{errorstate.firstname}</p>
-        <p>
-          <label htmlFor="lastName">
-            {" "}
-            Last Name :
-            <input
-              type="text"
-              name="lastname"
-              id="lastName"
-              onChange={changeHandler}
-            />
-          </label>
-        </p>
+                <Inputdiv><label htmlFor="lastName">Last Name :
+                    <input type="text" name="lastname" id="lastName" onChange={changeHandler} value={formState.lastname} />
+                        {errorState.lastname.length > 0 ? <p>{errorState.lastname}</p> : null}
+                    </label>
+                </Inputdiv>
 
-        <p>
-          <label htmlFor="email">
-            {" "}
-            Email :
-            <input
-              type="text"
-              name="email"
-              id="email"
-              onChange={changeHandler}
-            />
-          </label>
-        </p>
+                <Inputdiv><label htmlFor="email">Email :
+                    <input type="text" name="email" id="email" onChange={changeHandler} value={formState.email} />
+                        {errorState.email.length > 0 ? <p>{errorState.email}</p> : null}
+                    </label>
+                </Inputdiv>
 
-        <p>
-          <label htmlFor="password">
-            {" "}
-            Password :
-            <input
-              type="password"
-              name="password"
-              id="password"
-              onChange={changeHandler}
-            />
-          </label>
-        </p>
+                <Inputdiv><label htmlFor="password">Password :
+                    <input type="password" name="password" id="password" onChange={changeHandler} value={formState.password} />
+                        {errorState.password.length > 0 ? <p>{errorState.password}</p> : null}
+                    </label>
+                </Inputdiv>
 
-        <p>
-          <label htmlFor="conPassword">
-            {" "}
-            Confirm Password :
-            <input
-              type="password"
-              name="conpassword"
-              id="conPassword"
-              onChange={changeHandler}
-            />
-          </label>
-        </p>
+                <Inputdiv><label htmlFor="conPassword"> Confirm Password :
+                    <input type="password" name="conpassword" id="conPassword" onChange={changeHandler} value={formState.conpassword} />
+                        {errorState.conpassword.length > 0 ? <p>{errorState.conpassword}</p> : null}
+                    </label>
+                </Inputdiv>
 
-        <p>
-          <label htmlFor="listOfState">
-            State :{" "}
-            <select
-              onChange={changeHandler}
-              value={formState.state}
-              name="state"
-              id="state"
-            >
-              <option value="">--State of residence--</option>
-              <option value="Alabama">Alabama</option>
-              <option value="Alaska">Alaska</option>
-              <option value="arizona">Arizona</option>
-              <option value="arkansas">Arkansas</option>
-              <option value="california">California</option>
-              <option value="colorado">Colorado</option>
-              <option value="connecticut">Connecticut</option>
-              <option value="delaware">Delaware</option>
-            </select>
-          </label>
-        </p>
+                <Inputdiv><label htmlFor="listOfState"> State :
+                        <select onChange={changeHandler} value={formState.state} name="state" id="state">
+                            <option value="">--State of residence--</option>
+                            <option value="Alabama">Alabama</option>
+                            <option value="Alaska">Alaska</option>
+                            <option value="Arizona">Arizona</option>
+                            <option value="Arkansas">Arkansas</option>
+                            <option value="California">California</option>
+                            <option value="Colorado">Colorado</option>
+                            <option value="Connecticut">Connecticut</option>
+                            <option value="Delaware">Delaware</option>
+                        </select>
+                        {errorState.state.length > 0 ? <p>{errorState.state}</p> : null}
+                    </label>
+                </Inputdiv>
 
-        <p>
-          <label
-            htmlFor="status"
-            onChange={changeHandler}
-            value={formState.status}
-          >
-            <input type="radio" name="status" id="customer" value="customer" />{" "}
-            Customer{" "}
-          </label>
-          <label
-            htmlFor="status"
-            onChange={changeHandler}
-            value={formState.status}
-          >
-            <input
-              type="radio"
-              name="status"
-              id="businessowner"
-              value="Business Owner"
-            />
-            Business Owner{" "}
-          </label>
-        </p>
+                <Inputdiv><label htmlFor="status" onChange={changeHandler} value={formState.status}>
+                        <input type="radio" name="status" id="customer" value="Customer" />Customer
+                    </label>
+                    <label htmlFor="status" onChange={changeHandler} value={formState.status}>
+                        <input type="radio" name="status" id="businessowner" value="Business Owner"/> Business Owner
+                    </label>
+                    {errorState.status.length > 0 ? <p>{errorState.status}</p> : null}
+                </Inputdiv>
 
-        <p>
-          <label htmlFor="terms">
-            I agree the terms and conditions
-            <input
-              type="checkbox"
-              id="terms"
-              name="terms"
-              onChange={changeHandler}
-              value={formState.terms}
-            />
-          </label>
-        </p>
-        <p>
-          <Button type="submit">Register</Button>
-        </p>
-      </Formstyle>
-    </Maindiv>
-  );
+                <Inputdiv><label htmlFor="terms"> I agree the terms and conditions
+                    <input type="checkbox" id="terms" name="terms" onChange={changeHandler} value={formState.terms} />
+                    </label>
+                </Inputdiv>
+
+                <Inputdiv><Button type="submit">Register</Button></Inputdiv>
+
+            </Formstyle>
+        </Maindiv>
+    );
 };
 
 export default RegisterCompo;
