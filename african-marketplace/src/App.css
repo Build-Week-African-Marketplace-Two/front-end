@@ -1,3 +1,8 @@
+* {
+  padding: 0px;
+  margin: 0px;
+}
+
 .App {
   text-align: center;
 }
@@ -35,4 +40,42 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.nav-title {
+  color: green;
+}
+
+.nav-div a {
+  text-decoration: none;
+  margin: 15px;
+  font-size: 18px;
+  color: green;
+}
+
+.error {
+  color: red;
+  font-size: 12px;
+  margin:5px 10px 0 0;
+}
+
+.textarea {
+  width: 300px;
+  height: 30px;
+  border-radius: 5px;
+  border: none;
+  margin-top: 10px;
+}
+
+.textlable {
+  margin-top: 10px;
+  padding: 5px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;  
 }
