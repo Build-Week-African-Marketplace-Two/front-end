@@ -10,6 +10,7 @@ import Products from './components/Products';
 import ShoppingCart from './components/ShoppingCart';
 import LoginCompo from '../src/LoginCompo';
 import RegisterCompo from './RegisterCompo'
+import RegisterCard from './RegisterCard'
 
 function App() {
 	const [products] = useState(data);
@@ -28,6 +29,31 @@ function App() {
 		setCart(cart.filter(item => itemID !== item.id));
 	}
 
+	const [register, setRegister] = useState([
+		{
+		  firstname: "Sathya",
+		  lastname: "Ganesan",
+		  email: "sathya@gmail.com",
+		  password: "password",
+		  conpassword: "password",
+		  state: "Virginia",
+		  status: "Business Owner"
+		}
+	  ]);
+	
+	  const addNewUser = (formData) => {
+		const newUser = {
+		  firstname: formData.firstname,
+		  lastname: formData.lastname,
+		  email: formData.email,
+		  password: formData.password,
+		  conpassword: formData.conpassword,
+		  state: formData.state,
+		  status: formData.status
+		}
+		setRegister([...register, newUser]);
+	  };
+
 	return (
 		<div className="App">
 			<ProductContext.Provider value={{ products, addItem }}>
@@ -39,9 +65,10 @@ function App() {
 						<LoginCompo/>
 					</Route>
 
-					<Route exact path='/register'>
-						<RegisterCompo />
-					</Route>
+					<Route path = "/register">
+        				<RegisterCompo registerAttr={addNewUser} />
+        				<RegisterCard cardAttr = {register} />
+      				</Route> 
 
 					<Route exact path="/products">
 						<Products/>
