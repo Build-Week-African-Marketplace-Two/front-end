@@ -91,8 +91,8 @@ const LoginCompo = (props) => {
                     <input className = "textarea" type="text" name="username" id="username" value={login.username} onChange={changeHangler} />     
                     {errorState.username.length > 0 ? <p className = "error">{errorState.username}</p> : null}
                 </label></p>
-                <p><label htmlFor="customerPassword"> Password:  
-                    <input type="password" name="password" id="password" value={login.password} onChange={changeHangler} />  
+                <p><label htmlFor="customerPassword" className = "textlable"> Password <br></br>
+                    <input className = "textarea" type="password" name="password" id="password" value={login.password} onChange={changeHangler} />  
                     {errorState.password.length > 0 ? <p className = "error">{errorState.password}</p> : null}
                 </label></p>
                 <p><label htmlFor="rememberMe">Rememebr Me <input type="checkbox" name="rememberMe" id="rememberMe" value={login.terms} onChange={changeHangler} />
