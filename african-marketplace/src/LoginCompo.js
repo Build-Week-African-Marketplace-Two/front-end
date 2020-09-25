@@ -1,62 +1,106 @@
-import React, { useState } from "react";
-import { axiosWithAuth } from '../src/axiosWithAuth';
-import { useHistory } from 'react-router-dom';
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import axios from 'axios';
+import * as yup from 'yup';
+import './App.css';
 
-const Login = () => {
+const Loginheader = styled.h2`
+    display: flex;
+    justify-content: center;
+    color: green;
+`;
 
-  const[user, setUser] = useState({
-    credentials: {
-      username: "",
-      password: "",
-    }
-  });
+const Loginform = styled.form`
+    width: 70%;
+    margin: 10px auto;
+    background-color: #bffcbd;
+    padding: 20px;
+`;
+const Button = styled.button`
+  width: 100px;
+  height: 40px;
+  border: none;
+  border-radius: 10px;
+  color: blue;
+  background-color: lightblue;
+  font-size: 20px;
+  font-weight: bolder;
+`;
 
-  const history = useHistory();
+const formSchema = yup.object().shape({
+    username: yup.string().required("Please enter your username"),
+    password: yup.string().required("Please enter a valid password"),
+    rememberMe: yup.boolean().oneOf([true], "Would you like to remember you")
+});
 
-  const handleChange = e => {
-    setUser({
-      credentials: {
-        ...user.credentials,
-        [e.target.name]: e.target.value
-      }
-    })
-  };
+const LoginCompo = (props) => {
 
-  const login = e => {
-    console.log(user.credentials);
-    e.preventDefault();
-    axiosWithAuth()
-      .post("/api/auth/login", {username: user.credentials.username, password:  user.credentials.password})
-      .then((res) => {
-        console.log(res);
-        setUser({username: user.credentials.username, password:  user.credentials.password})
-        window.localStorage.setItem("token", res.data.payload);
-        history.push("/cart");
-      })
-      .catch((err) => console.log(err));
-  };
+    const [login, setLogin] = useState({
+        username: "",
+        password: "",
+        rememberMe: false
+    });
 
-  return (
-    <div>
-      <form onSubmit={login}>
-        <label>Username:</label>
-        <input
-          type="text"
-          name="username"
-          value={user.username}
-          onChange={handleChange}
-        />
-        <label>Password:</label>
-        <input
-          type="password"
-          name="password"
-          value={user.password}
-          onChange={handleChange}
-        />
-        <button type="submit">Log in</button>
-      </form>
-    </div>
-  );
-};
+    const [errorState, setErrorState] = useState({
+        username: "",
+        password: "",
+        rememberMe: "",
+    });
 
-export default Login;
+    const validation = (e) => { 
+        yup
+            .reach(formSchema, e.target.name)
+            .validate(e.target.value)
+            .then((valid) => {
+                setErrorState({ ...errorState, [e.target.name]: "" });
+                console.log(valid);
+            })
+            .catch((err) => { 
+                setErrorState({ ...errorState, [e.target.name]: err.errors[0] });
+                console.log(err.errors);
+            });
+    };
+
+    const formSubmit = (e) => { 
+        e.preventDefault();
+        props.loginAttr(login);
+        setLogin({
+            username: "",
+            password: "",
+            rememberMe: ""
+        });
+        console.log("Welcome Back !!")
+        axios
+            .post(`https://bw-african-marketplace.herokuapp.com/api/auth/login`, {username: login.username, password: login.password})
+            .then((res) => console.log(res))
+            .catch((err) => console.log(err));
+    };
+
+    const changeHangler = (e) => {
+        e.persist();
+        validation(e);
+        let anyVariable = e.target.type === "checkbox" ? e.target.checked : e.target.value;
+        setLogin({ ...login, [e.target.name]: anyVariable });
+    };
+
+    return (
+        <div>
+            <Loginheader>Customer Login</Loginheader>
+            <Loginform onSubmit = {formSubmit}>
+                <p><label htmlFor="customeremail" className = "textlable"> User Name <br></br>  
+                    <input className = "textarea" type="text" name="username" id="username" value={login.username} onChange={changeHangler} />     
+                    {errorState.username.length > 0 ? <p className = "error">{errorState.username}</p> : null}
+                </label></p>
+                <p><label htmlFor="customerPassword"> Password:  
+                    <input type="password" name="password" id="password" value={login.password} onChange={changeHangler} />  
+                    {errorState.password.length > 0 ? <p className = "error">{errorState.password}</p> : null}
+                </label></p>
+                <p><label htmlFor="rememberMe">Rememebr Me <input type="checkbox" name="rememberMe" id="rememberMe" value={login.terms} onChange={changeHangler} />
+                </label></p>
+                <Button type = "submit">Login</Button>
+            </Loginform>
+        </div>
+    );
+}
+
+export default LoginCompo;

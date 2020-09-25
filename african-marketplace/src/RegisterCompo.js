@@ -11,7 +11,7 @@ import './App.css';
 
 const Maindiv = styled.div`
   width: 70%;
-  margin: auto;
+  margin: 10px auto;
   background-color: #bffcbd;
   padding: 20px;
 `;
@@ -21,10 +21,11 @@ const Button = styled.button`
   height: 40px;
   border: none;
   border-radius: 10px;
-  color: blue;
-  background-color: lightblue;
+//   color: green;
+  background-color: #77f073;
   font-size: 20px;
   font-weight: bolder;
+  margin-top: 20px;
 `;
 
 const Formstyle = styled.form`
@@ -35,12 +36,15 @@ const Formtitle = styled.h2`
     display: flex;
     justify-content: center;
     color: green;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;  
+    margin-bottom: 20px;
 `;
 
 const Inputdiv = styled.div`
     display: flex;
     justify-content: center;
 `;
+
 
 const formSchema = yup.object().shape({
     firstname: yup.string().required("First Name is Required"),
@@ -171,7 +175,7 @@ const RegisterCompo = (props) => {
                     </label>
                 </Inputdiv>
 
-                <Inputdiv><label htmlFor="status" onChange={changeHandler} value={formState.status}>
+                <Inputdiv className = "radio-button"><label htmlFor="status" onChange={changeHandler} value={formState.status}>
                         <input type="radio" name="status" id="customer" value="Customer" />Customer
                     </label>
                     <label htmlFor="status" onChange={changeHandler} value={formState.status}>
@@ -180,8 +184,8 @@ const RegisterCompo = (props) => {
                     {errorState.status.length > 0 ? <p className = "error">{errorState.status}</p> : null}
                 </Inputdiv>
 
-                <Inputdiv><label htmlFor="terms"> I agree the terms and conditions
-                    <input type="checkbox" id="terms" name="terms" onChange={changeHandler} value={formState.terms} />
+                <Inputdiv><label htmlFor="terms" className = "checkbox-label"> I agree the terms and conditions
+                    <input className = "checkbox" type="checkbox" id="terms" name="terms" onChange={changeHandler} value={formState.terms} />
                     </label>
                 </Inputdiv>
 
