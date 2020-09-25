@@ -26,7 +26,7 @@ const Login = () => {
     console.log(user.credentials);
     e.preventDefault();
     axiosWithAuth()
-      .post("api/login", user.credentials)
+      .post("api/auth/login", user.credentials)
       .then((res) => {
         console.log(res);
         window.localStorage.setItem("token", res.data.payload);
