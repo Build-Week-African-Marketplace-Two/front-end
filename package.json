@@ -1,0 +1,19 @@
+{
+  "name": "front-end",
+  "version": "1.0.0",
+  "description": "African Marketplace 2 Front End",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Build-Week-African-Marketplace-Two/front-end.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Build-Week-African-Marketplace-Two/front-end/issues"
+  },
+  "homepage": "https://github.com/Build-Week-African-Marketplace-Two/front-end#readme"
+}

@@ -1,117 +1,54 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import NavCompo from './NavCompo';
-import LoginCompo from './LoginCompo';
-import RegisterCompo from './RegisterCompo';
-import RegisterCard from './RegisterCard';
-import { Route, Router } from 'react-router';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
-import './App.css';
-import ItemCompo from './ItemCompo';
+import React, { useState } from 'react';
+import { Route } from 'react-router-dom';
+import { ProductContext } from './contexts/ProductContext';
+import { CartContext } from './contexts/CartContext';
+import data from './data';
 
+// Components
+import Navigation from './components/Navigation';
+import Products from './components/Products';
+import ShoppingCart from './components/ShoppingCart';
+import LoginCompo from '../src/LoginCompo';
 
 function App() {
+	const [products] = useState(data);
+	const [cart, setCart] = useState([]);
 
-  const [register, setRegister] = useState([
-    {
-      firstname: "Sathya",
-      lastname: "Ganesan",
-      email: "sathya@gmail.com",
-      password: "password",
-      conpassword: "password",
-      state: "Virginia",
-      status: "Business Owner"
-    }
-  ]);
+	const addItem = item => {
+		// add the given item to the cart
 
-  const addNewUser = (formData) => {
-    const newUser = {
-      firstname: formData.firstname,
-      lastname: formData.lastname,
-      email: formData.email,
-      password: formData.password,
-      conpassword: formData.conpassword,
-      state: formData.state,
-      status: formData.status
-    }
-    setRegister([...register, newUser]);
-  };
+		setCart([...cart, item])
 
-// Login Component State :
+	};
 
-  const [signin, setSignin] = useState([{
-    username: "John",
-    password: "password"
-  }]);
+	const removeItem = itemID => {
+		//remove the selected item from the cart
 
-  const userSignin = (signinData) => {
-    const welcomeUser = {
-      username: signinData.email,
-      password: signinData.password,
-    }
-    setSignin([...signin, welcomeUser]);
-  };
+		setCart(cart.filter(item => itemID !== item.id));
+	}
 
-// Product Componet State:
+	return (
+		<div className="App">
+			<ProductContext.Provider value={{ products, addItem }}>
+				<CartContext.Provider value={{ cart, removeItem  }}>
+					<Navigation cart={cart} />
 
-  const [product, setProduct] = useState([]);
+					{/* Routes */}
+					<Route exact path="/">
+						<LoginCompo/>
+					</Route>
 
-  useEffect(() => {
-    axios
-      .get(`https://bw-african-marketplace.herokuapp.com/api/items`)
-      .then((res) => {
-        setProduct(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-  console.log(product);
+					<Route exact path="/products">
+						<Products/>
+					</Route>
 
-  const Navbar = styled.nav`
-    display: flex;
-    justify-content: space-between;
-    align-content: center;
-  `;
-
-  const Navdiv = styled.div`
-    margin: 10px;
-  `;
-
- 
-  return (
-    <div>
-      <nav className = "navbar">
-        <h2 className = "nav-title">African Marketplace</h2>
-        <div className = "nav-div">
-          <Link to="/">Home</Link>
-          <Link to ="/items">Items</Link>
-          <Link to = "/register">Sign Up</Link>
-          <Link to = "/login">Login</Link>
-        </div>
-      </nav>
-
-      <Route path = "/NewUser">
-        <NavCompo />
-      </Route>
-
-      <Route path = "/login">
-        <LoginCompo loginAttr={userSignin} />
-      </Route>
-      
-      
-      <Route path = "/register">
-        <RegisterCompo registerAttr={addNewUser} />
-        <RegisterCard cardAttr = {register} />
-      </Route>   
-
-      <Route path = "/items">
-        <ItemCompo itemAttr = {product} />
-      </Route>
-      
-    </div>
-  );
+					<Route path="/cart">
+						<ShoppingCart cart={cart} />
+					</Route>
+				</CartContext.Provider>	
+			</ProductContext.Provider>
+		</div>
+	);
 }
 
 export default App;
