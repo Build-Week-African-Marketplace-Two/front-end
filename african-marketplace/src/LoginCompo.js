@@ -6,7 +6,7 @@ const Login = () => {
 
   const[user, setUser] = useState({
     credentials: {
-      email: "",
+      username: "",
       password: "",
     }
   });
@@ -26,9 +26,10 @@ const Login = () => {
     console.log(user.credentials);
     e.preventDefault();
     axiosWithAuth()
-      .post("api/auth/login", user.credentials)
+      .post("/api/auth/login", {username: user.credentials.username, password:  user.credentials.password})
       .then((res) => {
         console.log(res);
+        setUser({username: user.credentials.username, password:  user.credentials.password})
         window.localStorage.setItem("token", res.data.payload);
         history.push("/cart");
       })
@@ -38,18 +39,18 @@ const Login = () => {
   return (
     <div>
       <form onSubmit={login}>
-        <label>Email:</label>
+        <label>Username:</label>
         <input
           type="text"
-          name="email"
-          value={user.credentials.email}
+          name="username"
+          value={user.username}
           onChange={handleChange}
         />
         <label>Password:</label>
         <input
           type="password"
           name="password"
-          value={user.credentials.password}
+          value={user.password}
           onChange={handleChange}
         />
         <button type="submit">Log in</button>
