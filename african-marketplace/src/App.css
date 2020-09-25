@@ -79,3 +79,21 @@
   padding: 5px;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;  
 }
+
+.radio-button {
+  display: flex;
+  flex-direction: column;
+  align-items: right;
+  margin: 10px 0 0 390px;
+  line-height: 25px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;  
+}
+
+.checkbox {
+  margin: 10px;
+}
+
+.checkbox-label {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;  
+  
+}

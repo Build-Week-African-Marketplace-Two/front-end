@@ -11,11 +11,11 @@ const Loginheader = styled.h2`
 `;
 
 const Loginform = styled.form`
-    // display: flex;
-    // justify-content: center;
-    text-align: center
+    width: 70%;
+    margin: 10px auto;
+    background-color: #bffcbd;
+    padding: 20px;
 `;
-
 const Button = styled.button`
   width: 100px;
   height: 40px;
@@ -87,8 +87,8 @@ const LoginCompo = (props) => {
         <div>
             <Loginheader>Customer Login</Loginheader>
             <Loginform onSubmit = {formSubmit}>
-                <p><label htmlFor="customeremail"> User Name:  
-                    <input type="text" name="username" id="username" value={login.username} onChange={changeHangler} />     
+                <p><label htmlFor="customeremail" className = "textlable"> User Name <br></br>  
+                    <input className = "textarea" type="text" name="username" id="username" value={login.username} onChange={changeHangler} />     
                     {errorState.username.length > 0 ? <p className = "error">{errorState.username}</p> : null}
                 </label></p>
                 <p><label htmlFor="customerPassword"> Password:  
