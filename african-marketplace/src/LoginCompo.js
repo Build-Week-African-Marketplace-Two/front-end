@@ -8,6 +8,8 @@ const Loginheader = styled.h2`
     display: flex;
     justify-content: center;
     color: green;
+    font-size: 25px;
+    font-weight: bold;
 `;
 
 const Loginform = styled.form`
@@ -21,10 +23,16 @@ const Button = styled.button`
   height: 40px;
   border: none;
   border-radius: 10px;
-  color: blue;
-  background-color: lightblue;
+  background-color: #77f073;
   font-size: 20px;
   font-weight: bolder;
+  margin-top: 20px;
+  text-align: center;
+`;
+
+const Inputdiv = styled.div`
+    display: flex;
+    justify-content: center;
 `;
 
 const formSchema = yup.object().shape({
@@ -87,16 +95,16 @@ const LoginCompo = (props) => {
         <div>
             <Loginheader>Customer Login</Loginheader>
             <Loginform onSubmit = {formSubmit}>
-                <p><label htmlFor="customeremail" className = "textlable"> User Name <br></br>  
+                <Inputdiv><label htmlFor="customeremail" className = "textlable"> User Name <br></br>  
                     <input className = "textarea" type="text" name="username" id="username" value={login.username} onChange={changeHangler} />     
                     {errorState.username.length > 0 ? <p className = "error">{errorState.username}</p> : null}
-                </label></p>
-                <p><label htmlFor="customerPassword" className = "textlable"> Password <br></br>
+                </label></Inputdiv>
+                <Inputdiv><label htmlFor="customerPassword" className = "textlable"> Password <br></br>
                     <input className = "textarea" type="password" name="password" id="password" value={login.password} onChange={changeHangler} />  
                     {errorState.password.length > 0 ? <p className = "error">{errorState.password}</p> : null}
-                </label></p>
-                <p><label htmlFor="rememberMe">Rememebr Me <input type="checkbox" name="rememberMe" id="rememberMe" value={login.terms} onChange={changeHangler} />
-                </label></p>
+                </label></Inputdiv>
+                <Inputdiv><label htmlFor="rememberMe" className = "textlable">Rememebr Me <input type="checkbox" name="rememberMe" id="rememberMe" value={login.terms} onChange={changeHangler} />
+                </label></Inputdiv>
                 <Button type = "submit">Login</Button>
             </Loginform>
         </div>

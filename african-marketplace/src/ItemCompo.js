@@ -5,6 +5,9 @@ const Producttitle = styled.h2`
     display: flex;
     justify-content: center;
     color: green;
+    font-size: 25px;
+    font-weight: bold;
+
 `; 
 
 const Cardstyle = styled.div`
@@ -21,6 +24,13 @@ const Productstyle = styled.div`
     border-radius: 7px;
     width: 400px;
     text-align: center;
+    line-height: 25px;
+`;
+
+const Productname = styled.h3`
+    font-weight: bold;
+    font-family: Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    // font-size: 40px;
 `;
 
 const ItemCompo = (props) => {
@@ -32,7 +42,7 @@ const ItemCompo = (props) => {
             {props.itemAttr.map((item) => {
                 return (
                     <Productstyle key = {item.id}>
-                        <h3>{item.name}</h3>
+                        <Productname>{item.name}</Productname>
                         <p>{item.description}</p>
                         <p>{item.price}</p>
                     </Productstyle>

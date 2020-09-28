@@ -2,16 +2,18 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Maindiv = styled.div`
-border: 1px solid red;
+// border: 1px solid red;
 display: flex;
 justify-content: center;
 flex-direction: column;
-
 `;
 
 const Cardtitle = styled.h2`
 color: blue;
 text-align: center;
+font-size: 25px;
+font-weight: bold;
+margin-top: 25px;
 `;
 
 const Carddiv = styled.div`
@@ -21,6 +23,7 @@ border: 1px solid red;
  border-radius: 10px;
  margin: 10px auto;
  padding: 10px;
+ line-height: 25px;
 `;
 
 const RegisterCard = (props) => {

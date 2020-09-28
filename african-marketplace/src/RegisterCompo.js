@@ -3,6 +3,7 @@ import axios from "axios";
 import * as yup from "yup";
 import styled from "styled-components";
 import './App.css';
+// import backgroundImage from './public/backgroundImage';
 
 // input elements are not clearing up.
 // Radio button and checkbox print its value not an actual text.
@@ -21,7 +22,6 @@ const Button = styled.button`
   height: 40px;
   border: none;
   border-radius: 10px;
-//   color: green;
   background-color: #77f073;
   font-size: 20px;
   font-weight: bolder;
@@ -38,6 +38,8 @@ const Formtitle = styled.h2`
     color: green;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;  
     margin-bottom: 20px;
+    font-size: 25px;
+    font-weight: bold;
 `;
 
 const Inputdiv = styled.div`
@@ -175,10 +177,11 @@ const RegisterCompo = (props) => {
                     </label>
                 </Inputdiv>
 
-                <Inputdiv className = "radio-button"><label htmlFor="status" onChange={changeHandler} value={formState.status}>
+                <Inputdiv >
+                    <label htmlFor="status" onChange={changeHandler} value={formState.status} className = "radio-button">
                         <input type="radio" name="status" id="customer" value="Customer" />Customer
                     </label>
-                    <label htmlFor="status" onChange={changeHandler} value={formState.status}>
+                    <label htmlFor="status" onChange={changeHandler} value={formState.status} className = "radio-button">
                         <input type="radio" name="status" id="businessowner" value="Business Owner"/> Business Owner
                     </label>
                     {errorState.status.length > 0 ? <p className = "error">{errorState.status}</p> : null}
