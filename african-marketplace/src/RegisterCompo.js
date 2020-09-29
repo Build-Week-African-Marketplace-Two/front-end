@@ -3,12 +3,7 @@ import axios from "axios";
 import * as yup from "yup";
 import styled from "styled-components";
 import './App.css';
-// import backgroundImage from './public/backgroundImage';
 
-// input elements are not clearing up.
-// Radio button and checkbox print its value not an actual text.
-// checkbox console log page is behaving opposite.
-// without initial card in register form.
 
 const Maindiv = styled.div`
   width: 70%;
@@ -92,7 +87,7 @@ const RegisterCompo = (props) => {
             .validate(e.target.value)
             .then((valid) => {
                 setErrorState({ ...errorState, [e.target.name]: "" });
-                console.log(valid);
+                // console.log(valid);
             })
             .catch((err) => {
                 setErrorState({ ...errorState, [e.target.name]: err.errors[0] });

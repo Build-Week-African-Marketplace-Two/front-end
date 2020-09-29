@@ -4,7 +4,7 @@ describe("African Marketplace testing", () => {
     });
 
     it("User first name", () => {
-        cy.get('#firstName')
+        cy.get('#firstname')
             .type("Sathya")
             .should("have.value", "Sathya")
     });
