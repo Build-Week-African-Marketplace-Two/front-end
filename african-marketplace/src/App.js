@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
-import { Route } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Route, Link } from 'react-router-dom';
 import { ProductContext } from './contexts/ProductContext';
 import { CartContext } from './contexts/CartContext';
 import data from './data';
+import ItemCompo from './ItemCompo';
+import axios from 'axios';
 
 // Components
 import Navigation from './components/Navigation';
@@ -52,17 +54,45 @@ function App() {
 		  status: formData.status
 		}
 		setRegister([...register, newUser]);
-	  };
+	};
+	
+	// Login Component State :
+	const [signin, setSignin] = useState([{
+		username: "John",
+		password: "password"
+	  }]);
+	  const userSignin = (signinData) => {
+		const welcomeUser = {
+		  username: signinData.email,
+		  password: signinData.password,
+		}
+		setSignin([...signin, welcomeUser]);
+	};
+	
+	// Product Componet State:
+	const [product, setProduct] = useState([]);
+	
+	useEffect(() => {
+	  axios
+		.get(`https://bw-african-marketplace.herokuapp.com/api/items`)
+		.then((res) => {
+		  setProduct(res.data);
+		})
+		.catch((err) => {
+		  console.log(err);
+		});
+	}, []);
+	console.log(product);
 
 	return (
 		<div className="App">
 			<ProductContext.Provider value={{ products, addItem }}>
 				<CartContext.Provider value={{ cart, removeItem  }}>
 					<Navigation cart={cart} />
-
-					{/* Routes */}
+					
+					
 					<Route exact path="/">
-						<LoginCompo/>
+					<LoginCompo loginAttr={userSignin} />
 					</Route>
 
 					<Route path = "/register">
@@ -71,7 +101,7 @@ function App() {
       				</Route> 
 
 					<Route exact path="/products">
-						<Products/>
+						<ItemCompo itemAttr = {product} />
 					</Route>
 
 					<Route path="/cart">

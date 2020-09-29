@@ -10,6 +10,9 @@ const Navigation = props => {
 			<NavLink to="/cart">
 				Cart <span>{cart.length}</span>
 			</NavLink>
+			<NavLink to="/register">Sign Up</NavLink>
+			<NavLink to ="/products">Items</NavLink>
+				
 		</div>
 	);
 };
